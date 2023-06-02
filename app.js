@@ -1,6 +1,6 @@
-const express = require("express");
 const helmet = require("helmet");
-const app = express();
+const expressapp = require("express");
+const app = expressapp();
 require("./db/conn");
 const router = require("./routes/router");
 const cors = require("cors");
@@ -14,7 +14,7 @@ const port = process.env.PORT || 5000;
 //     res.status(201).json("server created")
 // });
 
-app.use(express.json());
+app.use(expressapp.json());
 app.use(cookiParser());
 app.use(helmet());
 app.use(cors());
