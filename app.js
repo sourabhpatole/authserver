@@ -8,7 +8,7 @@ const cors = require("cors");
 const cookiParser = require("cookie-parser");
 const userRoutes = require("./routes/userRouter");
 const groupRoutes = require("./routes/groupRouter");
-const port = process.env.PORT || 8009;
+const port = process.env.PORT;
 
 // app.get("/",(req,res)=>{
 //     res.status(201).json("server created")
