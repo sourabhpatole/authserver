@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 const helmet = require("helmet");
 const app = express();
@@ -7,6 +6,7 @@ const router = require("./routes/router");
 const cors = require("cors");
 const cookiParser = require("cookie-parser");
 const userRoutes = require("./routes/userRouter");
+require("dotenv").config();
 const groupRoutes = require("./routes/groupRouter");
 const port = process.env.PORT || 5000;
 
