@@ -1,7 +1,9 @@
 const express = require("express");
 const groupDB = require("../models/GroupSchema");
+const authenticate = require("../middleware/authenticate");
+const activitydb = require("../models/ActivitySchema");
 const router = express.Router();
-router.post("/group", async (req, res) => {
+router.post("/group", authenticate, async (req, res) => {
   //   res.send("group created");
   const { groupName, createdBy, isActive } = req.body;
   if (!groupName) {
@@ -17,6 +19,12 @@ router.post("/group", async (req, res) => {
         createdBy,
         isActive,
       });
+      const token = req.headers.authorization.split(" ")[1];
+      const finalActivity = await new activitydb({
+        token: token,
+        action: "group created",
+      });
+      await finalActivity.save();
       const storeGroup = await group.save();
       res.status(200).json({ status: 201, storeGroup });
     }
@@ -25,7 +33,7 @@ router.post("/group", async (req, res) => {
     console.log(error);
   }
 });
-router.put("/group/:id", async (req, res) => {
+router.put("/group/:id", authenticate, async (req, res) => {
   //   res.send("group updated");
   try {
     await groupDB.findByIdAndUpdate(req.params.id, {
@@ -33,6 +41,12 @@ router.put("/group/:id", async (req, res) => {
       createdBy: req.body.createdBy,
       isActive: req.body.isActive,
     });
+    const token = req.headers.authorization.split(" ")[1];
+    const finalActivity = await new activitydb({
+      token: token,
+      action: "group edited",
+    });
+    await finalActivity.save();
     res.status(200).json({ message: "success" });
   } catch (error) {
     // console.log(error);
@@ -40,11 +54,17 @@ router.put("/group/:id", async (req, res) => {
   }
 });
 
-router.get("/group", async (req, res) => {
+router.get("/group", authenticate, async (req, res) => {
   try {
+    const token = req.headers.authorization.split(" ")[1];
+    const finalActivity = await new activitydb({
+      token: token,
+      action: "group list view",
+    });
     await groupDB
       .find()
       .then((data) => res.json(data))
+      .then(finalActivity.save())
       .catch((err) => res.json(err));
   } catch (error) {
     console.log(error);

@@ -3,7 +3,9 @@ const ActivitySchema = new mongoose.Schema(
   {
     name: {
       type: "string",
-      required: true,
+    },
+    token: {
+      type: "string",
     },
     email: {
       type: "string",

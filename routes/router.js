@@ -3,7 +3,6 @@ const userdb = require("../models/UserSchema");
 const router = new express.Router();
 const bcrypt = require("bcryptjs");
 const authenticate = require("../middleware/authenticate");
-const loginHistory = require("../models/LoginSchema");
 const activitydb = require("../models/ActivitySchema");
 // for user registration
 router.post("/register", async (req, res) => {
@@ -64,51 +63,39 @@ router.post("/login", async (req, res) => {
       if (!isMatch) {
         res.status(422).json({ error: "Invalid details" });
       } else {
-        // loginHistory.GenHistory();
-        // let historyArray = [];
         const token = await userValid.generateAuthToken();
-        // historyArray.push(
-        //   ...historyArray,
-        //   { email: userValid.email },
-        //   { name: userValid.name },
-        //   {
-        //     lastLogin: Date.now(),
-        //   }
-        // );
-        // token generate
-        // console.log(token);
-        // gen cookie
+
         res.cookie("usercookie", token, {
           expires: new Date(Date.now() + 900000),
           httpOnly: true,
         });
-
-        const history = new loginHistory({
-          userId: userValid._id,
+        const finalActivity = new activitydb({
           email: userValid.email,
-          name: userValid.name,
+          action: "user login",
         });
+        await finalActivity.save();
+
         const result = { userValid, token };
         res.status(201).json({ status: 201, result });
-
-        // const lastLogin = userValid.lastLogins.slice(-1)[0].lastLogin;
-
-        userValid.generateUserHistory();
-        await history.save();
-
-        // console.log("loginHistory", historyArray);
       }
-      // loginHistory.GenHistory();
+    } else {
+      res.status(403).json({ message: "Invalid username or password" });
     }
   } catch (error) {
     res.status(401).json(error);
     console.log("catch block");
   }
 });
-router.get("/history", async (req, res) => {
+router.get("/history", authenticate, async (req, res) => {
   // console.log("fghdfgfghfgfg");
   // res.json({ message: "hi i am sourabh patole" });
-  await loginHistory
+  const token = req.headers.authorization.split(" ")[1];
+  const finalActivity = await new activitydb({
+    token: token,
+    action: "view history",
+  });
+  await finalActivity.save();
+  await activitydb
     .find()
     .then((data) => res.json(data))
     .catch((err) => res.json(err));

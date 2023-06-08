@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
-const loginHistory = require("./LoginSchema");
 const keySecret = process.env.JWT_TOKEN;
 // console.log(keySecret);
 const userSchema = new mongoose.Schema(
