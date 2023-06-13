@@ -59,15 +59,28 @@ router.get("/employee", authenticate, async (req, res) => {
 router.put("/employee/:id", authenticate, async (req, res) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
+    const oldGroup = await employeedb.findById(req.params.id);
+    const { fname, lname, email, group, location, mobile, isActive } = oldGroup;
     const finalActivity = await new activitydb({
       token: token,
       action: "employee details updated",
+      prevData: [fname, lname, email, group, location, mobile, isActive],
+      updatedData: [
+        req.body.fname,
+        req.body.lname,
+        req.body.email,
+        req.body.group,
+        req.body.location,
+        req.body.mobile,
+        req.body.isActive,
+      ],
     });
     await employeedb.findByIdAndUpdate(req.params.id, {
       fname: req.body.fname,
       lname: req.body.lname,
       email: req.body.email,
       group: req.body.group,
+      location: req.body.location,
       mobile: req.body.mobile,
       isActive: req.body.isActive,
     });

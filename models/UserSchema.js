@@ -34,14 +34,6 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
-    lastLogins: [
-      {
-        lastLogin: {
-          type: "String",
-          default: new Date(),
-        },
-      },
-    ],
     isActive: {
       type: Boolean,
       default: true,

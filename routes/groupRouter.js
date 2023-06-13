@@ -36,6 +36,9 @@ router.post("/group", authenticate, async (req, res) => {
 router.put("/group/:id", authenticate, async (req, res) => {
   //   res.send("group updated");
   try {
+    const oldGroup = await groupDB.findById(req.params.id);
+    const { groupName, createdBy, isActive } = oldGroup;
+    // console.log(groupName, createdBy);
     await groupDB.findByIdAndUpdate(req.params.id, {
       groupName: req.body.groupName,
       createdBy: req.body.createdBy,
@@ -45,6 +48,8 @@ router.put("/group/:id", authenticate, async (req, res) => {
     const finalActivity = await new activitydb({
       token: token,
       action: "group edited",
+      prevData: [groupName, createdBy, isActive],
+      updatedData: [req.body.groupName, req.body.createdBy, req.body.isActive],
     });
     await finalActivity.save();
     res.status(200).json({ message: "success" });

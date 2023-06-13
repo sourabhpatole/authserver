@@ -14,6 +14,12 @@ const ActivitySchema = new mongoose.Schema(
       type: "string",
       required: true,
     },
+    prevData: {
+      type: Array,
+    },
+    updatedData: {
+      type: Array,
+    },
   },
   { timestamps: true }
 );
