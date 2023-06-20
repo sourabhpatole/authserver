@@ -42,7 +42,7 @@ router.post("/employee", authenticate, async (req, res) => {
 router.get("/employee", authenticate, async (req, res) => {
   // let token = url.parse(req.url, true).query.token;
   try {
-    const token = req.headers.authorization.split(" ")[1];
+    const token = req.headers.authorization;
     const finalActivity = await new activitydb({
       token: token,
       action: "employee list view",
