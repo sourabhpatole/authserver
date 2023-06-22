@@ -4,7 +4,7 @@ const express = require("express");
 const { sendMessage } = require("../helper/messageHelper");
 const employeedb = require("../models/EmploySchema");
 const authenticate = require("../middleware/authenticate");
-const whatsappDB = require("../models/WhatsappSchema");
+// const whatsappDB = require("../models/WhatsappSchema");
 const messageDB = require("../models/MessageSchema");
 const router = express.Router();
 
