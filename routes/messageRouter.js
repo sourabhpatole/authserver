@@ -1,14 +1,14 @@
 const express = require("express");
 const fs = require("fs");
 const schedule = require("node-schedule");
-const { getTextMessageInput, sendMessage } = require("../helper/messageHelper");
+const { sendMessage } = require("../helper/messageHelper");
 const employeedb = require("../models/EmploySchema");
 const authenticate = require("../middleware/authenticate");
 const messageDB = require("../models/MessageSchema");
 const whatsappdb = require("../models/WhatsappSchema");
 const router = express.Router();
 
-router.post("/message/:gr", async (req, res, next) => {
+router.post("/message/:gr", authenticate, async (req, res, next) => {
   const date = "*/10 * * * * *";
   const mobileData = await employeedb.find();
   // console.log(mobileData);
@@ -54,7 +54,7 @@ router.post("/message/:gr", async (req, res, next) => {
     // });
   }
 });
-router.post("/message", async (req, res, next) => {
+router.post("/message", authenticate, async (req, res, next) => {
   const date = "*/10 * * * * *";
   const mobileData = await employeedb.find();
   console.log(mobileData);
@@ -94,7 +94,7 @@ router.post("/message", async (req, res, next) => {
     // });
   }
 });
-router.get("/message/resp", async (req, res) => {
+router.get("/message/resp", authenticate, async (req, res) => {
   await whatsappdb.find().then((data) => res.json(data));
 });
 
