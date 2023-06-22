@@ -95,7 +95,14 @@ router.post("/message", authenticate, async (req, res, next) => {
   }
 });
 router.get("/message/resp", async (req, res) => {
-  await whatsappdb.find().then((data) => res.json(data));
+  try {
+    await whatsappdb
+      .find()
+      .then((data) => res.json(data))
+      .catch((err) => res.json(err));
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 //   res.json({ message: "sourabh message" });
