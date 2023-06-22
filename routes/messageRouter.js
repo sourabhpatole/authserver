@@ -1,5 +1,6 @@
 const express = require("express");
 // const fs = require("fs");
+const db = require("../db/conn");
 // const schedule = require("node-schedule");
 const { sendMessage } = require("../helper/messageHelper");
 const employeedb = require("../models/EmploySchema");
@@ -96,7 +97,6 @@ router.post("/message", async (req, res, next) => {
 });
 router.get("/message/resp", async (req, res) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
     await whatsappDB
       .find()
       .then((data) => res.json(data))
