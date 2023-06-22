@@ -14,5 +14,5 @@ const WhatsappSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-const whatsappdb = new mongoose.model("whatsapp", WhatsappSchema);
-module.exports = whatsappdb;
+const whatsappDB = new mongoose.model("whatsapp", WhatsappSchema);
+module.exports = whatsappDB;
