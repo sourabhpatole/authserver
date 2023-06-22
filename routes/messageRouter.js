@@ -94,7 +94,7 @@ router.post("/message", authenticate, async (req, res, next) => {
     // });
   }
 });
-router.get("/message/resp", authenticate, async (req, res) => {
+router.get("/message/resp", async (req, res) => {
   await whatsappdb.find().then((data) => res.json(data));
 });
 
