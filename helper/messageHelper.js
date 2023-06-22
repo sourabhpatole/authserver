@@ -16,26 +16,33 @@ function sendMessage(sourabh) {
     },
     data: JSON.stringify({
       messaging_product: "whatsapp",
-      preview_url: false,
       recipient_type: "individual",
       to: `91${sourabh}`,
-      type: "template",
-      template: {
-        name: "food_dept",
-        language: {
-          code: "en_US",
+      type: "interactive",
+      interactive: {
+        type: "button",
+        body: {
+          text: `Please select the type of dish would you like to add to your menu for tomorrow's lunch? 
+          If you would like to cancel, please **Ignore** the message`,
         },
-        components: [
-          {
-            type: "header",
-            parameters: [
-              {
-                type: "text",
-                text: ",",
+        action: {
+          buttons: [
+            {
+              type: "reply",
+              reply: {
+                id: "000",
+                title: "Veg",
               },
-            ],
-          },
-        ],
+            },
+            {
+              type: "reply",
+              reply: {
+                id: "001",
+                title: "Non-veg",
+              },
+            },
+          ],
+        },
       },
     }),
   };
