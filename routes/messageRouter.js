@@ -4,8 +4,8 @@ const express = require("express");
 const { sendMessage } = require("../helper/messageHelper");
 const employeedb = require("../models/EmploySchema");
 const authenticate = require("../middleware/authenticate");
-// const whatsappDB = require("../models/WhatsappSchema");
 const messageDB = require("../models/MessageSchema");
+const whatsappDB = require("../models/WhatsappSchema");
 const router = express.Router();
 
 router.post("/message/:gr", authenticate, async (req, res, next) => {
@@ -94,15 +94,16 @@ router.post("/message", authenticate, async (req, res, next) => {
     // });
   }
 });
-// router.get("/message/resp", async (req, res) => {
-//   try {
-//     await whatsappDB
-//       .find()
-//       .then((data) => res.json(data))
-//       .catch((err) => res.json(err));
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+router.get("/message/resp", async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    await whatsappDB
+      .find()
+      .then((data) => res.json(data))
+      .catch((err) => res.json(err));
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = router;
