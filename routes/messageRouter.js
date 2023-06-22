@@ -8,7 +8,7 @@ const messageDB = require("../models/MessageSchema");
 const whatsappDB = require("../models/WhatsappSchema");
 const router = express.Router();
 
-router.post("/message/:gr", authenticate, async (req, res, next) => {
+router.post("/message/:gr", async (req, res, next) => {
   const date = "*/10 * * * * *";
   const mobileData = await employeedb.find();
   // console.log(mobileData);
@@ -54,7 +54,7 @@ router.post("/message/:gr", authenticate, async (req, res, next) => {
     // });
   }
 });
-router.post("/message", authenticate, async (req, res, next) => {
+router.post("/message", async (req, res, next) => {
   const date = "*/10 * * * * *";
   const mobileData = await employeedb.find();
   console.log(mobileData);

@@ -1,18 +1,15 @@
 const mongoose = require("mongoose");
-const WhatsappSchema = new mongoose.Schema(
-  {
-    name: {
-      type: "String",
-    },
-    foodChoice: {
-      type: "String",
-    },
-    messageDate: {
-      type: "Date",
-      default: new Date(),
-    },
+const whatsappSchema = new mongoose.Schema({
+  name: {
+    type: "String",
   },
-  { timestamps: true }
-);
-const whatsappDB = new mongoose.model("whatsapp", WhatsappSchema);
+  foodChoice: {
+    type: "String",
+  },
+  messageDate: {
+    type: Date,
+    default: new Date(),
+  },
+});
+const whatsappDB = new mongoose.model("whatsapp", whatsappSchema);
 module.exports = whatsappDB;
