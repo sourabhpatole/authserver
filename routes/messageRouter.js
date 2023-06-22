@@ -105,6 +105,4 @@ router.get("/message/resp", async (req, res) => {
   }
 });
 
-//   res.json({ message: "sourabh message" });
-
 module.exports = router;
