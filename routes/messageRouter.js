@@ -6,7 +6,7 @@ const { sendMessage } = require("../helper/messageHelper");
 const employeedb = require("../models/EmploySchema");
 const authenticate = require("../middleware/authenticate");
 const messageDB = require("../models/MessageSchema");
-// const whatsappDB = require("../models/WhatsappSchema");
+const wmessageDB = require("../models/WmessageSchema");
 const router = express.Router();
 
 router.post("/message/:gr", async (req, res, next) => {
@@ -95,15 +95,15 @@ router.post("/message", async (req, res, next) => {
     // });
   }
 });
-// router.get("/message", async (req, res) => {
-//   try {
-//     await whatsappDB
-//       .find()
-//       .then((data) => res.json(data))
-//       .catch((err) => res.json(err));
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+router.get("/message", async (req, res) => {
+  try {
+    await wmessageDB
+      .find()
+      .then((data) => res.json(data))
+      .catch((err) => res.json(err));
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = router;
