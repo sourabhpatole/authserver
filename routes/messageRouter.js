@@ -9,7 +9,7 @@ const messageDB = require("../models/MessageSchema");
 const wmessageDB = require("../models/WmessageSchema");
 const router = express.Router();
 
-router.post("/message/:gr", authenticate, async (req, res, next) => {
+router.post("/message/:gr", async (req, res, next) => {
   const date = "*/10 * * * * *";
   const mobileData = await employeedb.find();
   // console.log(mobileData);
@@ -21,8 +21,10 @@ router.post("/message/:gr", authenticate, async (req, res, next) => {
     .filter((m) => m.group.toString().toLowerCase() === dataParam)
     .map((e) => e.mobile);
   console.log(mobileNumber);
+  console.log(mobileNumber);
 
   for (let i = 0; i < mobileNumber.length; i++) {
+    // textData = req.body.text;
     // schedule.scheduleJob(date, async () => {
     // console.log("The world is going to be end today!");
     // console.log(mobileNumber[26]);
@@ -55,7 +57,7 @@ router.post("/message/:gr", authenticate, async (req, res, next) => {
     // });
   }
 });
-router.post("/message", authenticate, async (req, res, next) => {
+router.post("/message", async (req, res, next) => {
   const date = "*/10 * * * * *";
   const mobileData = await employeedb.find();
   console.log(mobileData);
@@ -95,7 +97,17 @@ router.post("/message", authenticate, async (req, res, next) => {
     // });
   }
 });
-router.get("/message", authenticate, async (req, res) => {
+router.get("/message/send", async (req, res) => {
+  try {
+    await messageDB
+      .find()
+      .then((data) => res.json(data))
+      .catch((err) => res.json(err));
+  } catch (error) {
+    console.log(error);
+  }
+});
+router.get("/message/rec", authenticate, async (req, res) => {
   try {
     await wmessageDB
       .find()

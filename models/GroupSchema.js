@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 const groupSchema = new mongoose.Schema(
   {
     groupName: {
-      type: "string",
+      type: "String",
       required: true,
+      unique: true,
     },
     createdBy: {
-      type: "string",
+      type: "String",
       required: true,
     },
     isActive: {

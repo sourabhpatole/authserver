@@ -1,13 +1,15 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const employeedb = require("../models/EmploySchema");
+const { ObjectId } = require("mongodb");
 const authenticate = require("../middleware/authenticate");
 const activitydb = require("../models/ActivitySchema");
+const groupDB = require("../models/GroupSchema");
 const router = new express.Router();
 router.post("/employee", authenticate, async (req, res) => {
   //   res.json({ message: "gffgdsfgfgdfsdfgfhgdfd" });
   const { fname, lname, email, mobile, isActive, location, group } = req.body;
-  if (!fname || !email || !mobile || !location) {
+  if (!fname || !email || !mobile || !location || !group) {
     res.status(422).json({ error: "fill the details" });
   }
   try {
@@ -16,11 +18,22 @@ router.post("/employee", authenticate, async (req, res) => {
     if (preuser) {
       res.status(422).json({ error: "This mobile no is already exists" });
     } else {
+      const groupId = await groupDB.find();
+      const groupArr = groupId.filter((e) => e.groupName == group);
+      // console.log(groupArr);
+
+      const groupArrData = "" + groupArr.map((e) => e._id);
+      // const dataarray = "" + groupArrData;
+
+      console.log(typeof groupArrData);
+      // const passGrpData = groupArrData == [] ? null : groupArrData;
+      // console.log(groupArrData);
+      // const finalgrpdata = passGrpData.length > 0 ? passGrpData : null;
       const employee = new employeedb({
         fname,
         lname,
         email,
-        group,
+        group: groupArrData,
         mobile,
         location,
         isActive,
@@ -75,11 +88,16 @@ router.put("/employee/:id", authenticate, async (req, res) => {
         req.body.isActive,
       ],
     });
+    const groupId = await groupDB.find();
+    const groupArr = groupId.filter((e) => e.groupName == req.body.group);
+    // console.log(groupArr);
+    const groupArrData = "" + groupArr.map((e) => e._id);
+    console.log(typeof groupArrData);
     await employeedb.findByIdAndUpdate(req.params.id, {
       fname: req.body.fname,
       lname: req.body.lname,
       email: req.body.email,
-      group: req.body.group,
+      group: [...group].concat(groupArrData),
       location: req.body.location,
       mobile: req.body.mobile,
       isActive: req.body.isActive,

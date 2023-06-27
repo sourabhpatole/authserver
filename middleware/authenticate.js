@@ -23,4 +23,5 @@ const authenticate = async (req, res, next) => {
       .json({ status: 401, message: "Unauthorized no token provided" });
   }
 };
+
 module.exports = authenticate;

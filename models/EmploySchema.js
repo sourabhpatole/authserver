@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const groupDB = require("./GroupSchema");
 const employeeSchema = new mongoose.Schema(
   {
     fname: {
@@ -15,7 +16,7 @@ const employeeSchema = new mongoose.Schema(
       required: true,
     },
     group: {
-      type: "array",
+      type: "Array",
       required: true,
     },
     location: {
