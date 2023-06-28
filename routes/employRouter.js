@@ -19,22 +19,9 @@ router.post("/employee", authenticate, async (req, res) => {
     if (preuser) {
       res.status(422).json({ error: "This mobile no is already exists" });
     } else {
-      const groupId = await groupDB.find();
       let demoArr = [];
-      for (let i = 0; i < group.length; i++) {
-        // console.log(group[i]);
-        const groupArr = groupId.filter((e) => e.groupName == group[i]);
-        // console.log(groupArr.forEach((e) => console.log(e)));
+      group.forEach((e) => demoArr.push(e));
 
-        const groupArrData = "" + groupArr.map((e) => e._id);
-        await demoArr.push(groupArrData);
-        console.log(demoArr);
-        // const dataarray = "" + groupArrData;
-      }
-      // console.log(group.forEach((e) => console.log(e)));
-      // const passGrpData = groupArrData == [] ? null : groupArrData;
-      // console.log(groupArrData);
-      // const finalgrpdata = passGrpData.length > 0 ? passGrpData : null;
       const employee = new employeedb({
         fname,
         lname,
@@ -51,7 +38,6 @@ router.post("/employee", authenticate, async (req, res) => {
       });
       await finalActivity.save();
       const storeempData = await employee.save();
-      demoArr.splice(0, demoArr.length);
       await res.status(200).json({ status: 201, storeempData });
     }
   } catch (error) {
@@ -95,16 +81,13 @@ router.put("/employee/:id", authenticate, async (req, res) => {
         req.body.isActive,
       ],
     });
-    const employGrp = await employeedb.findById(req.params.id);
-    const preGroup = employGrp.group[0];
-    const groupId = await groupDB.find();
-    const groupArr = groupId.filter((e) => e.groupName == req.body.group);
-    const groupArrData = "" + groupArr.map((e) => e._id);
+    let demoArr = [];
+    req.body.group.forEach((e) => demoArr.push(e));
     await employeedb.findByIdAndUpdate(req.params.id, {
       fname: req.body.fname,
       lname: req.body.lname,
       email: req.body.email,
-      group: [...preGroup, groupArrData],
+      group: [demoArr],
       location: req.body.location,
       mobile: req.body.mobile,
       isActive: req.body.isActive,
