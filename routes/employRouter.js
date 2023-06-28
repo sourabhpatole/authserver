@@ -6,6 +6,7 @@ const authenticate = require("../middleware/authenticate");
 const activitydb = require("../models/ActivitySchema");
 const groupDB = require("../models/GroupSchema");
 const router = new express.Router();
+let demoArr = [];
 router.post("/employee", authenticate, async (req, res) => {
   //   res.json({ message: "gffgdsfgfgdfsdfgfhgdfd" });
   const { fname, lname, email, mobile, isActive, location, group } = req.body;
@@ -19,13 +20,18 @@ router.post("/employee", authenticate, async (req, res) => {
       res.status(422).json({ error: "This mobile no is already exists" });
     } else {
       const groupId = await groupDB.find();
-      const groupArr = groupId.filter((e) => e.groupName == group);
-      // console.log(groupArr);
 
-      const groupArrData = "" + groupArr.map((e) => e._id);
-      // const dataarray = "" + groupArrData;
+      for (let i = 0; i < group.length; i++) {
+        // console.log(group[i]);
+        const groupArr = groupId.filter((e) => e.groupName == group[i]);
+        // console.log(groupArr.forEach((e) => console.log(e)));
 
-      console.log(typeof groupArrData);
+        const groupArrData = "" + groupArr.map((e) => e._id);
+        await demoArr.push(groupArrData);
+        console.log(demoArr);
+        // const dataarray = "" + groupArrData;
+      }
+      // console.log(group.forEach((e) => console.log(e)));
       // const passGrpData = groupArrData == [] ? null : groupArrData;
       // console.log(groupArrData);
       // const finalgrpdata = passGrpData.length > 0 ? passGrpData : null;
@@ -33,7 +39,7 @@ router.post("/employee", authenticate, async (req, res) => {
         fname,
         lname,
         email,
-        group: groupArrData,
+        group: [demoArr],
         mobile,
         location,
         isActive,
@@ -92,12 +98,12 @@ router.put("/employee/:id", authenticate, async (req, res) => {
     const groupArr = groupId.filter((e) => e.groupName == req.body.group);
     // console.log(groupArr);
     const groupArrData = "" + groupArr.map((e) => e._id);
-    console.log(typeof groupArrData);
+    await demoArr.push(groupArrData);
     await employeedb.findByIdAndUpdate(req.params.id, {
       fname: req.body.fname,
       lname: req.body.lname,
       email: req.body.email,
-      group: [...group].concat(groupArrData),
+      group: [demoArr],
       location: req.body.location,
       mobile: req.body.mobile,
       isActive: req.body.isActive,
