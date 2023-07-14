@@ -1,10 +1,7 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const employeedb = require("../models/EmploySchema");
-const { ObjectId } = require("mongodb");
 const authenticate = require("../middleware/authenticate");
 const activitydb = require("../models/ActivitySchema");
-const groupDB = require("../models/GroupSchema");
 const router = new express.Router();
 
 router.post("/employee", authenticate, async (req, res) => {
