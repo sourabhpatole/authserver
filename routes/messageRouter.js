@@ -9,7 +9,7 @@ const messageDB = require("../models/MessageSchema");
 const wmessageDB = require("../models/WmessageSchema");
 const router = express.Router();
 
-router.post("/message/:gr", async (req, res, next) => {
+router.post("/message/:gr", authenticate, async (req, res, next) => {
   const date = "*/10 * * * * *";
   const mobileData = await employeedb.find();
   // console.log(mobileData);
@@ -57,7 +57,7 @@ router.post("/message/:gr", async (req, res, next) => {
     // });
   }
 });
-router.post("/message", async (req, res, next) => {
+router.post("/message", authenticate, async (req, res, next) => {
   const date = "*/10 * * * * *";
   const mobileData = await employeedb.find();
   console.log(mobileData);
@@ -97,7 +97,7 @@ router.post("/message", async (req, res, next) => {
     // });
   }
 });
-router.get("/message/send", async (req, res) => {
+router.get("/message/send", authenticate, async (req, res) => {
   try {
     await messageDB
       .find()
