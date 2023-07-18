@@ -42,7 +42,7 @@ router.post("/employee", authenticate, async (req, res) => {
     console.log("catch error", error);
   }
 });
-router.get("/employee", authenticate, async (req, res) => {
+router.get(`/employee`, authenticate, async (req, res) => {
   // let token = url.parse(req.url, true).query.token;
   try {
     const token = req.headers.authorization;
