@@ -2,7 +2,10 @@ const express = require("express");
 // const fs = require("fs");
 const db = require("../db/conn");
 // const schedule = require("node-schedule");
-const { sendMessage, sendMess } = require("../helper/messageHelper");
+const {
+  sendLunchMessage,
+  sendDinnerMessage,
+} = require("../helper/messageHelper");
 const employeedb = require("../models/EmploySchema");
 const authenticate = require("../middleware/authenticate");
 const messageDB = require("../models/MessageSchema");
@@ -57,7 +60,7 @@ router.post("/message/:gr", authenticate, async (req, res, next) => {
     // });
   }
 });
-router.post("/message", authenticate, async (req, res, next) => {
+router.post("/lunchmessage", authenticate, async (req, res, next) => {
   const date = "*/10 * * * * *";
   const mobileData = await employeedb.find();
   console.log(mobileData);
@@ -69,7 +72,7 @@ router.post("/message", authenticate, async (req, res, next) => {
     // console.log("The world is going to be end today!");
     // console.log(mobileNumber[26]);
     // var data = getTextMessageInput(mobileNumber);
-    await sendMessage(mobileNumber[i])
+    await sendLunchMessage(mobileNumber[i])
       .then(() => {
         res.json({ message: "success " });
         console.log("message send " + mobileNumber[i]);
@@ -97,7 +100,7 @@ router.post("/message", authenticate, async (req, res, next) => {
     // });
   }
 });
-router.post("/mess", authenticate, async (req, res, next) => {
+router.post("/dinnermessage", authenticate, async (req, res, next) => {
   const date = "*/10 * * * * *";
   const mobileData = await employeedb.find();
   console.log(mobileData);
@@ -109,7 +112,7 @@ router.post("/mess", authenticate, async (req, res, next) => {
     // console.log("The world is going to be end today!");
     // console.log(mobileNumber[26]);
     // var data = getTextMessageInput(mobileNumber);
-    await sendMess(mobileNumber[i])
+    await sendDinnerMessage(mobileNumber[i])
       .then(() => {
         res.json({ message: "success " });
         console.log("message send " + mobileNumber[i]);

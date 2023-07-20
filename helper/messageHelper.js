@@ -6,7 +6,7 @@
  */
 
 var axios = require("axios");
-function sendMessage(sourabh) {
+function sendLunchMessage(sourabh) {
   var config = {
     method: "post",
     url: `https://graph.facebook.com/v16.0/121276014242914/messages`,
@@ -31,14 +31,14 @@ function sendMessage(sourabh) {
               type: "reply",
               reply: {
                 id: "000",
-                title: "Veg",
+                title: "Lunch-Veg",
               },
             },
             {
               type: "reply",
               reply: {
                 id: "001",
-                title: "Non-veg",
+                title: "Lunch-Non-veg",
               },
             },
           ],
@@ -48,7 +48,7 @@ function sendMessage(sourabh) {
   };
   return axios(config);
 }
-function sendMess(sourabh) {
+function sendDinnerMessage(sourabh) {
   var config = {
     method: "post",
     url: `https://graph.facebook.com/v16.0/121276014242914/messages`,
@@ -64,7 +64,7 @@ function sendMess(sourabh) {
       interactive: {
         type: "button",
         body: {
-          text: `Please select the type of dish would you like to add to your menu for tomorrow's _*dinner*_? 
+          text: `Please select the type of dish would you like to add to your menu for today's _*dinner*_? 
           If you would like to cancel, please **Ignore** the message`,
         },
         action: {
@@ -73,14 +73,14 @@ function sendMess(sourabh) {
               type: "reply",
               reply: {
                 id: "000",
-                title: "Veg",
+                title: "Dinner-Veg",
               },
             },
             {
               type: "reply",
               reply: {
                 id: "001",
-                title: "Non-veg",
+                title: "Dinner-Non-veg",
               },
             },
           ],
@@ -92,6 +92,6 @@ function sendMess(sourabh) {
 }
 
 module.exports = {
-  sendMessage: sendMessage,
-  sendMess: sendMess,
+  sendLunchMessage: sendLunchMessage,
+  sendDinnerMessage: sendDinnerMessage,
 };
