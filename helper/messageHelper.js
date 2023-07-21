@@ -72,14 +72,14 @@ function sendDinnerMessage(sourabh) {
             {
               type: "reply",
               reply: {
-                id: "000",
+                id: "002",
                 title: "Dinner-Veg",
               },
             },
             {
               type: "reply",
               reply: {
-                id: "001",
+                id: "003",
                 title: "Dinner-Non-veg",
               },
             },

@@ -9,7 +9,8 @@ const {
 const employeedb = require("../models/EmploySchema");
 const authenticate = require("../middleware/authenticate");
 const messageDB = require("../models/MessageSchema");
-const wmessageDB = require("../models/WmessageSchema");
+const whatsapplunch = require("../models/WmessageSchemaL");
+const whatsappdinner = require("../models/WmessageSchemaD");
 const router = express.Router();
 
 router.post("/message/:gr", authenticate, async (req, res, next) => {
@@ -150,9 +151,19 @@ router.get("/message/send", authenticate, async (req, res) => {
     console.log(error);
   }
 });
-router.get("/message/rec", authenticate, async (req, res) => {
+router.get("/message/reclunch", authenticate, async (req, res) => {
   try {
-    await wmessageDB
+    await whatsapplunch
+      .find()
+      .then((data) => res.json(data))
+      .catch((err) => res.json(err));
+  } catch (error) {
+    console.log(error);
+  }
+});
+router.get("/message/recdinner", authenticate, async (req, res) => {
+  try {
+    await whatsappdinner
       .find()
       .then((data) => res.json(data))
       .catch((err) => res.json(err));
