@@ -18,7 +18,6 @@ const employeeSchema = new mongoose.Schema(
     group: {
       type: "Array",
       required: true,
-      unique: true,
     },
     location: {
       type: "String",

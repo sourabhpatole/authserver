@@ -12,13 +12,13 @@ router.post("/employee", authenticate, async (req, res) => {
   }
   try {
     const preuser = await employeedb.findOne({ mobile: mobile });
-
-    if (preuser) {
+    console.log(group);
+    if (!preuser) {
       res.status(422).json({ error: "This mobile no is already exists" });
     } else {
-      let demoArr = [];
-      group.forEach((e) => demoArr.push(e));
-
+      const demoArr = [];
+      // demoArr.replace(/[\[\]']+/g, "");
+      group.map((e) => demoArr.push(e));
       const employee = new employeedb({
         fname,
         lname,
@@ -79,7 +79,7 @@ router.put("/employee/:id", authenticate, async (req, res) => {
       ],
     });
     let demoArr = [];
-    req.body.group.forEach((e) => demoArr.push(e));
+    req.body.group.map((e) => demoArr.push(e));
     await employeedb.findByIdAndUpdate(req.params.id, {
       fname: req.body.fname,
       lname: req.body.lname,
