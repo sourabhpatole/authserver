@@ -86,6 +86,12 @@ router.post("/login", async (req, res) => {
     console.log("catch block");
   }
 });
+router.get("/user", async (req, res) => {
+  await userdb
+    .find()
+    .then((data) => res.json(data))
+    .catch((error) => res.json(error));
+});
 router.get("/history", authenticate, async (req, res) => {
   // console.log("fghdfgfghfgfg");
   // res.json({ message: "hi i am sourabh patole" });
